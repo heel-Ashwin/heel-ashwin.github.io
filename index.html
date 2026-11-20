@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>R Ashwin | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --mouse-x: 50vw;
+        --mouse-y: 50vh;
+      }
+
+      html.light body {
+        background: linear-gradient(
+          135deg,
+          #f4f8ff 0%,
+          #e7f0ff 42%,
+          #eefbf5 78%,
+          #fff6ed 100%
+        );
+        color: #0f172a;
+      }
+      html.dark body {
+        background: linear-gradient(
+          135deg,
+          #040507 0%,
+          #0b0f17 45%,
+          #111827 80%,
+          #16181d 100%
+        );
+        color: #f1f5f9;
+      }
+
+      body {
+        min-height: 100vh;
+        transition: background 0.45s ease, color 0.35s ease;
+        overflow-x: hidden;
+      }
+
+      #cursor-spotlight {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+      html.dark #cursor-spotlight {
+        background: radial-gradient(
+          620px circle at var(--mouse-x) var(--mouse-y),
+          rgba(59, 130, 246, 0.11),
+          rgba(16, 185, 129, 0.06) 35%,
+          rgba(249, 115, 22, 0.04) 60%,
+          transparent 78%
+        );
+      }
+      html.light #cursor-spotlight {
+        background: radial-gradient(
+          620px circle at var(--mouse-x) var(--mouse-y),
+          rgba(37, 99, 235, 0.1),
+          rgba(5, 150, 105, 0.06) 35%,
+          rgba(234, 88, 12, 0.05) 60%,
+          transparent 78%
+        );
+      }
+
+      @media (pointer: fine) {
+        body,
+        a,
+        button,
+        select {
+          cursor: none;
+        }
+        #cursor-dot,
+        #cursor-ring {
+          position: fixed;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          z-index: 9999;
+          border-radius: 9999px;
+          transform: translate(-50%, -50%);
+        }
+        #cursor-dot {
+          width: 7px;
+          height: 7px;
+          background: #f97316;
+          transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+        }
+        #cursor-ring {
+          width: 34px;
+          height: 34px;
+          border: 1.5px solid rgba(59, 130, 246, 0.65);
+          transition: width 0.22s ease, height 0.22s ease,
+            border-color 0.22s ease, background 0.22s ease;
+        }
+        body.cursor-hover #cursor-dot {
+          width: 10px;
+          height: 10px;
+          background: #10b981;
+        }
+        body.cursor-hover #cursor-ring {
+          width: 50px;
+          height: 50px;
+          border-color: #f97316;
+          background: rgba(249, 115, 22, 0.08);
+        }
+      }
+      @media (pointer: coarse) {
+        #cursor-dot,
+        #cursor-ring {
+          display: none;
+        }
+      }
+
+      html.dark .glass-card {
+        background: linear-gradient(
+          145deg,
+          rgba(17, 24, 39, 0.78),
+          rgba(9, 12, 18, 0.88)
+        );
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        box-shadow: 0 18px 40px -15px rgba(0, 0, 0, 0.75);
+      }
+      html.light .glass-card {
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.84),
+          rgba(241, 247, 255, 0.9)
+        );
+        border: 1px solid rgba(37, 99, 235, 0.14);
+        box-shadow: 0 18px 40px -15px rgba(30, 58, 138, 0.12);
+      }
+      .glass-card {
+        backdrop-filter: blur(14px);
+        transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.28s ease, box-shadow 0.28s ease;
+      }
+      .glass-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(249, 115, 22, 0.48);
+      }
+
+      .btn-tactile {
+        transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+      }
+      .btn-tactile:hover {
+        transform: translateY(-2px) scale(1.02);
+      }
+      .btn-tactile:active {
+        transform: translateY(1px) scale(0.98);
+      }
+
+      .nav-link.active {
+        background: linear-gradient(
+          90deg,
+          rgba(59, 130, 246, 0.18),
+          rgba(16, 185, 129, 0.16)
+        );
+        border-color: rgba(249, 115, 22, 0.55);
+        color: #f97316;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.65s ease,
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body class="antialiased selection:bg-orange-500 selection:text-white">
+    <div id="cursor-spotlight"></div>
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Sticky Top Navigation -->
+    <header
+      class="sticky top-0 z-40 backdrop-blur-xl border-b border-slate-300/40 dark:border-slate-800/80 bg-white/65 dark:bg-black/65 transition-colors"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3"
+      >
+        <a
+          href="#about"
+          class="font-extrabold tracking-tight text-lg flex items-center gap-2 shrink-0"
+        >
+          <span
+            class="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 via-emerald-400 to-orange-500"
+          ></span>
+          <span>R ASHWIN</span>
+        </a>
+
+        <nav
+          id="top-nav"
+          class="hidden lg:flex items-center gap-1 text-xs font-semibold"
+        >
+          <a
+            href="#about"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >About</a
+          >
+          <a
+            href="#class10"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >10th</a
+          >
+          <a
+            href="#class12"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >12th</a
+          >
+          <a
+            href="#ug"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >B.Tech (UG)</a
+          >
+          <a
+            href="#internship"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Internship</a
+          >
+          <a
+            href="#projects"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Projects</a
+          >
+          <a
+            href="#certifications"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Certifications</a
+          >
+          <a
+            href="#publications"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Publications</a
+          >
+          <a
+            href="#skills"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Skills</a
+          >
+          <a
+            href="#extracurricular"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Extracurricular</a
+          >
+          <a
+            href="#hobbies"
+            class="nav-link px-2.5 py-1.5 rounded-full border border-transparent hover:border-blue-500/40 transition"
+            >Hobbies</a
+          >
+        </nav>
+
+        <!-- Theme Toggle Switch -->
+        <button
+          id="theme-toggle"
+          aria-label="Toggle Dark and Light Mode"
+          class="btn-tactile flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-900/90 text-xs font-bold shadow-sm shrink-0"
+        >
+          <span
+            id="theme-track"
+            class="relative w-10 h-5 rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 dark:from-orange-500 dark:to-blue-600 p-0.5 transition-all"
+          >
+            <span
+              id="theme-thumb"
+              class="block w-4 h-4 rounded-full bg-white shadow transform translate-x-5 transition-transform duration-300"
+            ></span>
+          </span>
+          <span
+            id="theme-label"
+            class="font-mono text-[11px] uppercase tracking-wider"
+            >Dark</span
+          >
+        </button>
+      </div>
+
+      <!-- Mobile Nav -->
+      <div
+        class="lg:hidden overflow-x-auto border-t border-slate-200/50 dark:border-slate-800/60 px-4 py-2 flex items-center gap-2 text-xs font-semibold whitespace-nowrap"
+      >
+        <a
+          href="#about"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >About</a
+        >
+        <a
+          href="#class10"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >10th</a
+        >
+        <a
+          href="#class12"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >12th</a
+        >
+        <a
+          href="#ug"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >B.Tech</a
+        >
+        <a
+          href="#internship"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Internship</a
+        >
+        <a
+          href="#projects"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Projects</a
+        >
+        <a
+          href="#certifications"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Certifications</a
+        >
+        <a
+          href="#publications"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Publications</a
+        >
+        <a
+          href="#skills"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Skills</a
+        >
+        <a
+          href="#extracurricular"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Extracurricular</a
+        >
+        <a
+          href="#hobbies"
+          class="nav-link px-2.5 py-1 rounded-full border border-transparent"
+          >Hobbies</a
+        >
+      </div>
+    </header>
+
+    <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-24">
+      <!-- 1. ABOUT ME (Image Left / Text Right) -->
+      <section id="about" class="reveal scroll-mt-24">
+        <div
+          class="glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <div class="lg:col-span-5 lg:order-1">
+            <div class="relative group mx-auto max-w-xs">
+              <div
+                class="absolute -inset-1.5 rounded-3xl bg-gradient-to-tr from-blue-600 via-emerald-500 to-orange-500 opacity-75 blur group-hover:opacity-100 transition"
+              ></div>
+              <div
+                class="relative rounded-3xl overflow-hidden border border-white/20 bg-slate-900 aspect-[4/5]"
+              >
+                <img
+                  src="assets/profile.jpg"
+                  alt="R Ashwin"
+                  class="w-full h-full object-cover"
+                  onerror="this.src='https://placehold.co/480x600/0f172a/38bdf8?text=R+ASHWIN'"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 lg:order-2 space-y-4">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-500/15 text-blue-600 dark:text-blue-400"
+            >
+              <span>01</span><span>•</span><span>ABOUT ME</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              R Ashwin
+            </h2>
+            <p
+              class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              Computer Science and Engineering graduate with a specialization in
+              Artificial Intelligence and Machine Learning from SRM Institute of
+              Science and Technology, Chennai.
+            </p>
+            <p> Enthusiastic about building practical solutions, exploring new technologies and solving
+              real-world problems.
+            </p>
+            <div class="grid grid-cols-2 gap-3 pt-1 max-w-md">
+             
+              <div
+                class="p-3 rounded-2xl bg-orange-500/10 border border-orange-500/20"
+              >
+                <div
+                  class="text-xs font-mono text-orange-600 dark:text-orange-400"
+                >
+                  Location
+                </div>
+                <div class="text-base font-extrabold">Chennai, India</div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-3 pt-2">
+              <a
+                href="assets/ASHWIN_R_RESUME_UG.pdf"
+                target="_blank"
+                class="btn-tactile px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-blue-600/20"
+                >Resume ↗</a
+              >
+              <a
+                href="https://github.com/heel-Ashwin"
+                target="_blank"
+                class="btn-tactile px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-orange-500 text-xs sm:text-sm font-bold"
+                >GitHub</a
+              >
+              <a
+                href="https://www.linkedin.com/in/ashwin-r-707356255"
+                target="_blank"
+                class="btn-tactile px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 hover:border-blue-500 text-xs sm:text-sm font-bold"
+                >LinkedIn</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. CLASS 10TH (Text Left / Marksheet Right) -->
+      <section id="class10" class="reveal scroll-mt-24">
+        <div
+          class="glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <div class="lg:col-span-5 lg:order-2">
+            <div
+              class="rounded-2xl overflow-hidden border border-slate-300/60 dark:border-slate-700/80 bg-slate-950 shadow-lg"
+            >
+              <iframe
+                src="assets/10th_marksheet.pdf#toolbar=0"
+                class="w-full h-64 bg-white"
+                title="Class 10 Marksheet"
+              ></iframe>
+              <div
+                class="p-3 flex items-center justify-between bg-slate-900 text-slate-200 text-xs"
+              >
+                <span class="font-mono">10th_marksheet.pdf</span>
+                <button
+                  onclick="openDocModal('Class 10th CBSE Marksheet (2020)', 'assets/10th_marksheet.pdf')"
+                  class="btn-tactile px-3 py-1 rounded-lg bg-orange-500 text-white font-bold"
+                >
+                  Expand Marksheet ↗
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 lg:order-1 space-y-4">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+            >
+              <span>02</span><span>•</span
+              ><span>SECONDARY EDUCATION (2020)</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Class 10th - Central Board of Secondary Education (CBSE)
+            </h2>
+            <p
+              class="text-sm font-semibold text-emerald-600 dark:text-emerald-400"
+            >
+              Chennai Public School (Anna Nagar West Extn), Chennai • 2020
+            </p>
+            <p
+              class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              Completed Secondary School Examination with an aggregate of
+              <strong>92.6% (463 / 500)</strong> 
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Social Science:</strong> 96 (A1)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>English:</strong> 95 (A1)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Maths Standard:</strong> 95 (A1)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Hindi Course-B:</strong> 92 (A2)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Science:</strong> 85 (A1)
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. CLASS 12TH (Marksheet Left / Text Right) -->
+      <section id="class12" class="reveal scroll-mt-24">
+        <div
+          class="glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <div class="lg:col-span-5 lg:order-1">
+            <div
+              class="rounded-2xl overflow-hidden border border-slate-300/60 dark:border-slate-700/80 bg-slate-950 shadow-lg"
+            >
+              <iframe
+                src="assets/12th_marksheet.pdf#toolbar=0"
+                class="w-full h-64 bg-white"
+                title="Class 12 Marksheet"
+              ></iframe>
+              <div
+                class="p-3 flex items-center justify-between bg-slate-900 text-slate-200 text-xs"
+              >
+                <span class="font-mono">12th_marksheet.pdf</span>
+                <button
+                  onclick="openDocModal('Class 12th CBSE Marksheet (2022)', 'assets/12th_marksheet.pdf')"
+                  class="btn-tactile px-3 py-1 rounded-lg bg-blue-600 text-white font-bold"
+                >
+                  Expand Marksheet ↗
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 lg:order-2 space-y-4">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-orange-500/15 text-orange-600 dark:text-orange-400"
+            >
+              <span>03</span><span>•</span><span>SENIOR SECONDARY (2022)</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Class 12th - Central Board of Secondary Education (CBSE)
+            </h2>
+            <p class="text-sm font-semibold text-blue-600 dark:text-blue-400">
+              Chennai Public School (Anna Nagar West Extn), Chennai • 2022
+            </p>
+            <p
+              class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              Completed Senior School Certificate Examination in the Science
+              &amp; Computer Science stream with an aggregate of
+              <strong>84.0% (420 / 500)</strong>.
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>English Core:</strong> 92 (A1)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Chemistry:</strong> 90 (A2)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Computer Science:</strong> 89 (A2)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Physics:</strong> 85 (A2)
+              </div>
+              <div
+                class="p-2.5 rounded-xl bg-slate-500/10 border border-slate-500/20"
+              >
+                <strong>Mathematics:</strong> 64 (B2)
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. B.TECH (Text Left / Grade Cards Sem 1-8 Right) -->
+      <section id="ug" class="reveal scroll-mt-24">
+        <div
+          class="glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <div class="lg:col-span-5 lg:order-2">
+            <div
+              class="rounded-2xl overflow-hidden border border-slate-300/60 dark:border-slate-700/80 bg-slate-950 shadow-lg"
+            >
+              <div
+                class="p-2.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between gap-2"
+              >
+                <select
+                  id="sem-selector"
+                  class="bg-slate-800 text-slate-100 text-xs font-semibold rounded-lg px-2.5 py-1.5 border border-slate-700 focus:outline-none focus:border-orange-500 w-full"
+                >
+                  <option value="assets/degree_certificate.pdf">
+                    B.Tech Degree Certificate
+                  </option>
+
+                  <option value="assets/consolidated_grade.pdf">
+                    Consolidated Grade Card (CGPA 9.24)
+                  </option>
+                  
+                  <option value="assets/sem1_grade.pdf">
+                    Semester 1 Grade Card
+                  </option>
+                  <option value="assets/sem2_grade.pdf">
+                    Semester 2 Grade Card
+                  </option>
+                  <option value="assets/sem3_grade.pdf">
+                    Semester 3 Grade Card
+                  </option>
+                  <option value="assets/sem4_grade.pdf">
+                    Semester 4 Grade Card
+                  </option>
+                  <option value="assets/sem5_grade.pdf">
+                    Semester 5 Grade Card
+                  </option>
+                  <option value="assets/sem6_grade.pdf">
+                    Semester 6 Grade Card
+                  </option>
+                  <option value="assets/sem7_grade.pdf">
+                    Semester 7 Grade Card
+                  </option>
+                  <option value="assets/sem8_grade.pdf">
+                    Semester 8 Grade Card
+                  </option>
+                </select>
+                <button
+                  id="ug-grade-open"
+                  onclick="openDocModal('Degree Certificate', 'assets/degree_certificate.pdf')"
+                  class="btn-tactile px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold shrink-0"
+                >
+                  Zoom ↗
+                </button>
+              </div>
+              <iframe
+                id="ug-grade-frame"
+                src="assets/degree_certificate.pdf#toolbar=0"
+                class="w-full h-64 bg-white"
+                title="UG Grade Card"
+              ></iframe>
+              <div
+                class="px-3 py-2 bg-slate-900 text-[11px] font-mono text-slate-300 flex justify-between"
+              >
+                <span id="ug-grade-label"
+                  >Degree Certificate</span
+                >
+                <span class="text-emerald-400">First Class w/ Distinction</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 lg:order-1 space-y-4">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-500/15 text-blue-600 dark:text-blue-400"
+            >
+              <span>04</span><span>•</span
+              ><span>UNDERGRADUATE DEGREE (2022–2026)</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              B.Tech CSE (AI &amp; ML) — 9.24 CGPA
+            </h2>
+            <p
+              class="text-sm font-semibold text-emerald-600 dark:text-emerald-400"
+            >
+              SRM Institute of Science and Technology (SRMIST), Kattankulathur •
+              2022 – 2026
+            </p>
+            <p
+              class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              <strong
+                >B.Tech in Computer Science and Engineering with Specialization in
+                Artificial Intelligence &amp; Machine Learning.</strong
+            </p>
+            <p>
+              Graduated with
+              <strong>9.24 CGPA (First Class with Distinction)</strong>. 
+            </p>
+            <div>
+              <div
+                class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2"
+              >
+                Relevant Coursework
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Data Structures &amp; Algorithms</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Operating Systems</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Database Management Systems</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Machine Learning</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Artificial Intelligence</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Deep Learning Techniques</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >GPU Powered Computing</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Accelerated Data Science</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Computer Networks</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Design &amp; Analysis of Algorithms</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Cloud Native AI Deployment</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Fuzzy Logic &amp; Applications</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Calculus &amp; Linear Algebra</span
+                >
+                <span
+                  class="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-blue-500/10 border border-blue-500/25 text-blue-700 dark:text-blue-300"
+                  >Discrete Mathematics</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. INTERNSHIP (Clean Card Left / Summary Right) -->
+      <section id="internship" class="reveal scroll-mt-24">
+        <div
+          class="glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <div class="lg:col-span-5 lg:order-1">
+            <div
+              class="rounded-2xl p-6 bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/60 border border-slate-700/80 text-slate-100 space-y-4 shadow-lg"
+            >
+              <div>
+                <h3 class="text-xl font-extrabold">
+                  L&amp;T Technology Services (LTTS)
+                </h3>
+                <p class="text-sm text-slate-300 mt-1">Chennai, India</p>
+                <p class="text-xs font-mono text-emerald-400 mt-1">
+                  June 3, 2024 – August 2, 2024
+                </p>
+              </div>
+              <div class="pt-2 flex flex-wrap gap-2.5">
+                <button
+                  onclick="openDocModal('LTTS Internship Certificate', 'assets/ltts_certificate.pdf')"
+                  class="btn-tactile px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold"
+                >
+                  Open Certificate ↗
+                </button>
+                <a
+                  href="https://www.linkedin.com/posts/ashwin-r-707356255_internship-completion-activity-7226975736597790721-WQkP"
+                  target="_blank"
+                  class="btn-tactile px-4 py-2 rounded-lg border border-slate-600 hover:border-orange-400 text-xs font-semibold"
+                  >LinkedIn Post ↗</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 lg:order-2 space-y-4">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+            >
+              <span>05</span><span>•</span><span>INTERNSHIP</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Industry Experience
+            </h2>
+            <p
+              class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              Worked on an NLP project to benchmark and fine-tune LLMs for industrial PLC programming applications.
+              
+              
+            </p>
+            <ul
+              class="text-xs sm:text-sm space-y-1.5 text-slate-700 dark:text-slate-300 list-disc pl-5"
+            >
+              <li>
+                Benchmarked multiple 7–8B LLMs using standardized prompts to evaluate PLC programming performance.
+              </li>
+              <li>
+                 Learned LLM fine-tuning and evaluation techniques using DeepSeek and other open-source language models.
+                 
+              </li>
+              <li>Experimented with model merging architectures—SLERP, Linear,
+                DARE, and Mixture-of-Experts (MoE)—alongside Retrieval-Augmented
+                Generation (RAG) pipelines.</li>
+              <li>Presented comparative evaluation metrics of multiple LLMs, supporting the existing production model selection</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. PROJECTS (Single-Column List) -->
+      <section id="projects" class="reveal scroll-mt-24">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 space-y-6">
+          <div class="space-y-2">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-orange-500/15 text-orange-600 dark:text-orange-400"
+            >
+              <span>06</span><span>•</span><span>PROJECTS</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Projects
+            </h2>
+          </div>
+
+          <div class="divide-y divide-slate-300/40 dark:divide-slate-800/80">
+            <div
+              class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+            >
+              <div class="space-y-1.5 max-w-3xl">
+                <h3 class="text-base sm:text-lg font-bold">
+                  Federated Language Models for Legal Contract Review
+                </h3>
+                <p
+                  class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                >
+                  Hybrid legal contract review framework integrating LegalBERT
+                  for clause classification and LoRA-tuned Phi-2 for risk
+                  explanations and contract summaries, trained across
+                  distributed clients via Federated Averaging (FedAvg) on the
+                  LEDGAR dataset (85% classification accuracy).
+                </p>
+              </div>
+              <a
+                href="https://github.com/heel-Ashwin/Federated-Language-Models-for-Legal-Contract-Review"
+                target="_blank"
+                class="btn-tactile px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-blue-500 text-xs font-bold shrink-0 self-start"
+                >GitHub ↗</a
+              >
+            </div>
+
+            <div
+              class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+            >
+              <div class="space-y-1.5 max-w-3xl">
+                <h3 class="text-base sm:text-lg font-bold">
+                  Urban Heat Island (UHI) Analysis
+                </h3>
+                <p
+                  class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                >
+                  Machine learning pipeline predicting Urban Heat Island
+                  intensity from neighborhood-level environmental data using
+                  supervised regression and clustering algorithms, paired with a
+                  containerized Docker dashboard for visualization and manual
+                  prediction.
+                </p>
+              </div>
+              <a
+                href="https://github.com/heel-Ashwin/UHI-PREDICTIVE-ANALYSIS"
+                target="_blank"
+                class="btn-tactile px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-emerald-500 text-xs font-bold shrink-0 self-start"
+                >GitHub ↗</a
+              >
+            </div>
+
+            <div
+              class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+            >
+              <div class="space-y-1.5 max-w-3xl">
+                <h3 class="text-base sm:text-lg font-bold">
+                  Farm Intelligence System (FIS)
+                </h3>
+                <p
+                  class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                >
+                  Agricultural decision-support platform for Tamil Nadu farmers
+                  providing crop recommendations, yield prediction, and
+                  MSP-based revenue estimation, integrated with a multilingual
+                  voice-enabled RAG chatbot and a prototype Buyer-Farmer
+                  marketplace.
+                </p>
+              </div>
+              <a
+                href="https://github.com/heel-Ashwin"
+                target="_blank"
+                class="btn-tactile px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-orange-500 text-xs font-bold shrink-0 self-start"
+                >GitHub ↗</a
+              >
+            </div>
+
+            <div
+              class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+            >
+              <div class="space-y-1.5 max-w-3xl">
+                <h3 class="text-base sm:text-lg font-bold">
+                  Urban Solar Potential Mapping using Cloud
+                </h3>
+                <p
+                  class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                >
+                  AWS-enabled geospatial machine learning pipeline forecasting
+                  India's solar energy potential under future climate scenarios
+                  using WorldClim v2.1, CMIP6, and DEM GeoTIFF datasets.
+                </p>
+              </div>
+              <a
+                href="https://github.com/heel-Ashwin/Urban-Solar-Potential-Mapping"
+                target="_blank"
+                class="btn-tactile px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-blue-500 text-xs font-bold shrink-0 self-start"
+                >GitHub ↗</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. CERTIFICATIONS (Complete Verified List Including Hackathons & Excel) -->
+      <section id="certifications" class="reveal scroll-mt-24">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 space-y-6">
+          <div class="space-y-2">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-500/15 text-blue-600 dark:text-blue-400"
+            >
+              <span>07</span><span>•</span><span>CERTIFICATIONS</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Certifications
+            </h2>
+          </div>
+
+          <div class="divide-y divide-slate-300/40 dark:divide-slate-800/80">
+            <button
+              onclick="openDocModal('Microsoft (Coursera) — Data for Business Analysts Using Microsoft Excel', 'assets/coursera_excel.pdf')"
+              class="w-full py-3.5 first:pt-0 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  Microsoft (Coursera) — Data for Business Analysts Using
+                  Microsoft Excel
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Oct 2026
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('AICTE – Altair Data Science Master Virtual Internship (10 Weeks)', 'assets/aicte_datascience.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  AICTE – Altair Data Science Master Virtual Internship (10
+                  Weeks)
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Apr – Jun 2024
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('AICTE – Google Android Developer Virtual Internship (10 Weeks)', 'assets/aicte_android.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  AICTE – Google Android Developer Virtual Internship (10 Weeks)
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Jan – Mar 2024
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('AICTE – AWS Academy AI-ML Virtual Internship (10 Weeks)', 'assets/aicte_aiml.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  AICTE – AWS Academy AI-ML Virtual Internship (10 Weeks)
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Sep – Nov 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('Stanford Online & DeepLearning.AI — Supervised Machine Learning: Regression and Classification', 'assets/coursera_ml.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  Stanford Online &amp; DeepLearning.AI(Coursera) — Supervised Machine
+                  Learning: Regression and Classification
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Aug 2024
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('AWS Academy Graduate — AWS Academy Cloud Foundations', 'assets/aws_cloud.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  AWS Academy Graduate — AWS Academy Cloud Foundations
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Oct 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('AWS Academy Graduate — AWS Academy Machine Learning Foundations', 'assets/aws_ml.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  AWS Academy Graduate — AWS Academy Machine Learning
+                  Foundations
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Oct 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('NPTEL (IIT Madras) — Computer Architecture', 'assets/nptel_ca.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  NPTEL (IIT Madras) — Computer Architecture
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Jul – Oct 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('NPTEL — Programming in Java', 'assets/nptel_java.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">NPTEL(IIT Kharagpur) — Programming in Java</div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Jul – Oct 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('Networking Fundamentals', 'assets/networking_fundamentals.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">Akamai(Coursera) — Networking Fundamentals</div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Oct 2024
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('IBM Cognitive Class — SQL and Relational Databases 101', 'assets/ibm_sql.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  IBM Cognitive Class — SQL and Relational Databases 101
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Jun 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('IBM Cognitive Class — Python 101 for Data Science', 'assets/ibm_python.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  IBM Cognitive Class — Python 101 for Data Science
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Jun 2023
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('HACKTRIX-2024 — IEEE SRMIST Hackathon', 'assets/hacktrix_2024.pdf')"
+              class="w-full py-3.5 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  HACKTRIX-2024 — IEEE SRMIST, Kattankulathur
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Hackathon Participation • 2024
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+
+            <button
+              onclick="openDocModal('Tech Trivia — Technical Competition Certificate', 'assets/tech_trivia.pdf')"
+              class="w-full py-3.5 last:pb-0 flex items-center justify-between gap-4 text-left hover:text-orange-500 transition group"
+            >
+              <div>
+                <div class="text-sm font-bold">
+                  Tech Trivia — Technical Event
+                </div>
+                <div
+                  class="text-xs font-mono text-slate-500 dark:text-slate-400"
+                >
+                  Participation Certificate
+                </div>
+              </div>
+              <span
+                class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                >View Certificate ↗</span
+              >
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. PUBLICATIONS (Clean List with Both Certificates) -->
+      <section id="publications" class="reveal scroll-mt-24">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 space-y-6">
+          <div class="space-y-2">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+            >
+              <span>08</span><span>•</span><span>PUBLICATIONS</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Publications
+            </h2>
+          </div>
+
+          <div class="divide-y divide-slate-300/40 dark:divide-slate-800/80">
+            <div
+              class="py-4 first:pt-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              <div class="space-y-1">
+                <div class="text-xs font-mono text-orange-500 font-bold">
+                  ICAEM 2026 • Conference Proceedings
+                </div>
+                <h3 class="text-base font-bold">
+                  Federated Dual-Model Framework for Privacy-Preserving Legal
+                  Contract Analysis
+                </h3>
+                <p
+                  class="text-xs sm:text-sm text-slate-700 dark:text-slate-300"
+                >
+                  Presented at the 3rd International Conference on Advances in
+                  Engineering and Medical Sciences (ICAEMS 2026), ISTS, April
+                  17–18, 2026.
+                </p>
+              </div>
+              <button
+                onclick="openDocModal('ICAEMS 2026 Presentation Certificate', 'assets/icaem.png')"
+                class="btn-tactile px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-orange-500 text-xs font-bold shrink-0 self-start"
+              >
+                View Certificate ↗
+              </button>
+            </div>
+
+            <div
+              class="py-4 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              <div class="space-y-1">
+                <div class="text-xs font-mono text-blue-500 font-bold">
+                  NCMI 2025 • Paper Presentation
+                </div>
+                <h3 class="text-base font-bold">
+                  Leveraging Digital Twin technology for future-ready micro irrigation systems: An AI-driven framework for sustainable water management                </h3>
+                <p
+                  class="text-xs sm:text-sm text-slate-700 dark:text-slate-300"
+                >
+                  Presented at National Conference of Micro Irrigation, SRM College of Agricultural Sciences,
+                  Chengalpattu (2025).
+                </p>
+              </div>
+              <button
+                onclick="openDocModal('NCMI 2025 Presentation Certificate', 'assets/ncmi_2025.jpg')"
+                class="btn-tactile px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-emerald-500 text-xs font-bold shrink-0 self-start"
+              >
+                View Certificate ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. SKILLS (Clean Categorized Skill Pills - Easy to Edit in HTML) -->
+      <section id="skills" class="reveal scroll-mt-24">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 space-y-6">
+          <div class="space-y-2">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-500/15 text-blue-600 dark:text-blue-400"
+            >
+              <span>09</span><span>•</span><span>SKILLS</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Skills
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Category 1: Programming Languages -->
+            <div
+              class="p-5 rounded-2xl bg-slate-500/5 border border-slate-300/40 dark:border-slate-800/80 space-y-3"
+            >
+              <div
+                class="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold"
+              >
+                Programming Languages
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >Python</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >SQL</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >C / C++</span
+                >
+                
+                
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >HTML</span
+                >
+              </div>
+            </div>
+
+            <!-- Category 2: AI, Machine Learning & Data Science -->
+            <div
+              class="p-5 rounded-2xl bg-slate-500/5 border border-slate-300/40 dark:border-slate-800/80 space-y-3"
+            >
+              <div
+                class="text-xs font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold"
+              >
+                AI, Machine Learning &amp; Data Science
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >Machine Learning</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >Deep Learning</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >Natural Language Processing (NLP)</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >Large Language Models (LLMs)</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >RAG &amp; Fine-Tuning</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >Federated Learning</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/25"
+                  >Pandas &amp; NumPy</span
+                >
+                
+              </div>
+            </div>
+
+            <!-- Category 3: Cloud, Tools & Platforms -->
+            <div
+              class="p-5 rounded-2xl bg-slate-500/5 border border-slate-300/40 dark:border-slate-800/80 space-y-3"
+            >
+              <div
+                class="text-xs font-mono uppercase tracking-wider text-orange-600 dark:text-orange-400 font-bold"
+              >
+                Cloud, Tools &amp; Platforms
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-500/10 border border-orange-500/25"
+                  >AWS</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-500/10 border border-orange-500/25"
+                  >Google Cloud (GCP)</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-500/10 border border-orange-500/25"
+                  >Docker</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-500/10 border border-orange-500/25"
+                  >GitHub</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-500/10 border border-orange-500/25"
+                  >Jupyter Notebook</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-500/10 border border-orange-500/25"
+                  >MATLAB</span
+                >
+              </div>
+            </div>
+
+            <!-- Category 4: Data Visualization & Analytics -->
+            <div
+              class="p-5 rounded-2xl bg-slate-500/5 border border-slate-300/40 dark:border-slate-800/80 space-y-3"
+            >
+              <div
+                class="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold"
+              >
+                Data Visualization &amp; Analytics
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >Matplotlib &amp; Seaborn</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >Microsoft Excel</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >Microsoft PowerPoint</span
+                >
+                <span
+                  class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-blue-500/10 border border-blue-500/25"
+                  >PowerBI</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. EXTRACURRICULAR (Volunteering, Positions of Responsibility & Sports) -->
+      <section id="extracurricular" class="reveal scroll-mt-24">
+        <div class="glass-card rounded-3xl p-6 sm:p-10 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-2">
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-orange-500/15 text-orange-600 dark:text-orange-400"
+              >
+                <span>10</span><span>•</span><span>EXTRACURRICULAR</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                Volunteering, Positions of Responsibility &amp; Sports
+              </h2>
+            </div>
+            <button
+              id="extra-close-split"
+              onclick="closeExtraSplit()"
+              class="hidden btn-tactile px-3 py-1.5 rounded-lg bg-slate-800 text-slate-200 text-xs font-bold"
+            >
+              Back to List ✕
+            </button>
+          </div>
+
+          <div id="extra-wrapper" class="grid grid-cols-1 gap-8 items-center">
+            <!-- List Side -->
+            <div
+              id="extra-list-col"
+              class="divide-y divide-slate-300/40 dark:divide-slate-800/80"
+            >
+              <button
+                onclick="selectExtraItem('evidyaloka')"
+                class="extra-item w-full py-4 first:pt-0 text-left flex items-center justify-between gap-4 hover:text-orange-500 transition group"
+              >
+                <div>
+                  <div class="text-xs font-mono text-emerald-500 font-bold">
+                    VOLUNTEERING
+                  </div>
+                  <div class="text-base font-bold mt-0.5">
+                    Content Development Volunteer &amp; Volunteer Champion Award
+                    (2024–25) — eVidyaloka Trust
+                  </div>
+                  <p
+                    class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1"
+                  >
+                    Created learning modules for rural educators at eVidyaloka Trust.
+                  </p>
+                </div>
+                <span
+                  class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                  >Inspect ↗</span
+                >
+              </button>
+
+              <div class="py-4 text-left">
+                <div class="text-xs font-mono text-blue-500 font-bold">
+                  POSITIONS OF RESPONSIBILITY
+                </div>
+                <div class="text-base font-bold mt-0.5">
+                  Member (DS/ML Domain) — Gen-Y Club, SRMIST
+                </div>
+                <p
+                  class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1"
+                >
+                  Served as a member under the Data Science and Machine Learning
+                  domain for Gen-Y Club at SRMIST, Kattankulathur.
+                </p>
+              </div>
+
+              <button
+                onclick="selectExtraItem('sports')"
+                class="extra-item w-full py-4 last:pb-0 text-left flex items-center justify-between gap-4 hover:text-orange-500 transition group"
+              >
+                <div>
+                  <div class="text-xs font-mono text-orange-500 font-bold">
+                    SPORTS
+                  </div>
+                  <div class="text-base font-bold mt-0.5">
+                    School Intramurals — Canopus House
+                  </div>
+                  <p
+                    class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1"
+                  >
+                    Various accomplishments in sports during my schooling 
+                  </p>
+                </div>
+                <span
+                  class="text-xs font-bold text-blue-500 group-hover:text-orange-500 shrink-0"
+                  >Inspect ↗</span
+                >
+              </button>
+            </div>
+
+            <!-- Right Preview Pane (Hidden until Volunteering or Sports is clicked) -->
+            <div
+              id="extra-preview-col"
+              class="hidden rounded-2xl overflow-hidden border border-slate-300/60 dark:border-slate-700/80 bg-slate-950 shadow-lg"
+            >
+              <iframe
+                id="extra-frame"
+                src=""
+                class="w-full h-72 bg-white"
+                title="Extracurricular Attachment"
+              ></iframe>
+              <div
+                class="p-3 flex flex-wrap items-center justify-between gap-2 bg-slate-900 text-slate-200 text-xs"
+              >
+                <span id="extra-doc-label" class="font-mono">Document</span>
+                <div id="extra-doc-buttons" class="flex gap-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. HOBBIES -->
+      <section id="hobbies" class="reveal scroll-mt-24">
+        <div
+          class="glass-card rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+        >
+          <div class="lg:col-span-5 lg:order-2">
+            <div class="grid grid-cols-2 gap-3">
+              <div
+                class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 text-slate-100 space-y-1.5"
+              >
+                <div class="text-lg">⚽</div>
+                <div class="text-xs font-bold">Premier League &amp; Football</div>
+                <p class="text-[11px] text-slate-400">
+                  Newcastle United supporter following EPL tactics &amp;
+                  transfer windows.
+                </p>
+              </div>
+              <div
+                class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-blue-950/60 border border-blue-500/30 text-slate-100 space-y-1.5"
+              >
+                <div class="text-lg">▶️</div>
+                <div class="text-xs font-bold">Binge Watching Youtube</div>
+                <p class="text-[11px] text-slate-400">
+                  Following entertainment groups, gaming and variety streams, football discussion podcasts and recreational golf videos.
+                </p>
+              </div>
+              <div
+                class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-emerald-950/60 border border-emerald-500/30 text-slate-100 space-y-1.5"
+              >
+                <div class="text-lg">🎬</div>
+                <div class="text-xs font-bold">Tamil Cinema</div>
+                <p class="text-[11px] text-slate-400">
+                  Watching major theatrical releases.
+                </p>
+              </div>
+              <div
+                class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-orange-950/50 border border-orange-500/30 text-slate-100 space-y-1.5"
+              >
+                <div class="text-lg">🌐</div>
+                <div class="text-xs font-bold">Tech &amp; Macro Trends</div>
+                <p class="text-[11px] text-slate-400">
+                  Following developments across technology and sports
+                  management.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 lg:order-1 space-y-4">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-500/15 text-blue-600 dark:text-blue-400"
+            >
+              <span>11</span><span>•</span><span>HOBBIES</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Hobbies &amp; Personal Interests
+            </h2>
+            <p
+              class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+            >
+              Outside academics and engineering, my interests center around
+              competitive football, sports analytics, and cinema:
+            </p>
+            <ul
+              class="text-xs sm:text-sm space-y-1.5 text-slate-700 dark:text-slate-300 list-disc pl-5"
+            >
+              <li>
+                <strong>Football:</strong> Passionate
+                follower of football especially the English Premier League and Newcastle United,
+                and Fantasy Premier League.
+              </li>
+              <li>
+                <strong>Tamil Cinema:</strong> Enjoying big-screen theatrical
+                releases and storytelling.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="relative z-10 border-t border-slate-300/40 dark:border-slate-800/80 py-10 mt-16"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600 dark:text-slate-400"
+      >
+        <p class="font-mono">© 2026 R Ashwin • Chennai, India</p>
+        <div class="flex items-center gap-5 font-semibold">
+          <a
+            href="mailto:ashwin2635@gmail.com"
+            class="hover:text-orange-500 transition"
+            >ashwin2635@gmail.com</a
+          >
+          <a
+            href="https://www.linkedin.com/in/ashwin-r-707356255"
+            target="_blank"
+            class="hover:text-blue-500 transition"
+            >LinkedIn</a
+          >
+          <a
+            href="https://github.com/heel-Ashwin"
+            target="_blank"
+            class="hover:text-emerald-500 transition"
+            >GitHub</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- Document / Image Lightbox Modal -->
+    <div
+      id="doc-modal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4"
+    >
+      <div
+        class="relative w-full max-w-4xl h-[86vh] rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl flex flex-col overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 py-3 border-b border-slate-800 bg-slate-950"
+        >
+          <span
+            id="modal-title"
+            class="text-sm font-bold text-slate-100 truncate"
+            >Document Preview</span
+          >
+          <div class="flex items-center gap-3">
+            <a
+              id="modal-open-tab"
+              href="#"
+              target="_blank"
+              class="btn-tactile px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold"
+              >Open Full File ↗</a
+            >
+            <button
+              id="modal-close"
+              class="btn-tactile px-3 py-1 rounded-lg bg-orange-500/20 hover:bg-orange-500 text-orange-300 hover:text-white text-xs font-bold"
+            >
+              Close ✕
+            </button>
+          </div>
+        </div>
+        <div
+          id="modal-body"
+          class="flex-1 bg-slate-950 flex items-center justify-center overflow-auto p-2"
+        ></div>
+      </div>
+    </div>
+
+    <script>
+      // 1. Dark / Light Theme Switcher
+      const htmlEl = document.documentElement;
+      const toggleBtn = document.getElementById("theme-toggle");
+      const themeThumb = document.getElementById("theme-thumb");
+      const themeLabel = document.getElementById("theme-label");
+
+      function applyTheme(mode) {
+        if (mode === "light") {
+          htmlEl.classList.remove("dark");
+          htmlEl.classList.add("light");
+          themeThumb.classList.remove("translate-x-5");
+          themeThumb.classList.add("translate-x-0");
+          themeLabel.textContent = "Light";
+        } else {
+          htmlEl.classList.remove("light");
+          htmlEl.classList.add("dark");
+          themeThumb.classList.remove("translate-x-0");
+          themeThumb.classList.add("translate-x-5");
+          themeLabel.textContent = "Dark";
+        }
+        localStorage.setItem("ashwin-portfolio-theme", mode);
+      }
+
+      applyTheme(localStorage.getItem("ashwin-portfolio-theme") || "dark");
+      toggleBtn.addEventListener("click", () => {
+        applyTheme(htmlEl.classList.contains("dark") ? "light" : "dark");
+      });
+
+      // 2. Interactive Cursor
+      const dot = document.getElementById("cursor-dot");
+      const ring = document.getElementById("cursor-ring");
+      let ringX = window.innerWidth / 2,
+        ringY = window.innerHeight / 2;
+      let mouseX = ringX,
+        mouseY = ringY;
+
+      window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.documentElement.style.setProperty("--mouse-x", mouseX + "px");
+        document.documentElement.style.setProperty("--mouse-y", mouseY + "px");
+        if (dot) {
+          dot.style.left = mouseX + "px";
+          dot.style.top = mouseY + "px";
+        }
+      });
+
+      function animateCursor() {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        if (ring) {
+          ring.style.left = ringX + "px";
+          ring.style.top = ringY + "px";
+        }
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      document.querySelectorAll("a, button, select").forEach((el) => {
+        el.addEventListener("mouseenter", () =>
+          document.body.classList.add("cursor-hover")
+        );
+        el.addEventListener("mouseleave", () =>
+          document.body.classList.remove("cursor-hover")
+        );
+      });
+
+      // 3. UG Grade Sheet Switcher (Consolidated + Sem 1-8)
+      const semSelector = document.getElementById("sem-selector");
+      const gradeFrame = document.getElementById("ug-grade-frame");
+      const gradeLabel = document.getElementById("ug-grade-label");
+      const gradeOpenBtn = document.getElementById("ug-grade-open");
+
+      if (semSelector && gradeFrame) {
+        semSelector.addEventListener("change", (e) => {
+          const file = e.target.value;
+          const text = e.target.options[e.target.selectedIndex].text;
+          gradeFrame.src = file;
+          gradeLabel.textContent = text;
+          if (gradeOpenBtn)
+            gradeOpenBtn.onclick = () => openDocModal(text, file);
+        });
+      }
+
+      // 4. Extracurricular List -> Left/Right Split Toggle (Volunteering & Sports)
+      const extraData = {
+        evidyaloka: {
+          label: "eVidyaloka Volunteer Champion Award",
+          defaultFile: "assets/evidyaloka_award.pdf",
+          docs: [
+            { title: "eVidyaloka Award", file: "assets/evidyaloka_award.pdf" },
+          ],
+        },
+        sports: {
+          label: "School Sports Achievements (Canopus House)",
+          defaultFile: "assets/school_sports.pdf",
+          docs: [
+            {
+              title: "School Sports Certificates",
+              file: "assets/school_sports.pdf",
+            },
+          ],
+        },
+      };
+
+      function selectExtraItem(key) {
+        const item = extraData[key];
+        if (!item) return;
+        const wrapper = document.getElementById("extra-wrapper");
+        const listCol = document.getElementById("extra-list-col");
+        const previewCol = document.getElementById("extra-preview-col");
+        const closeBtn = document.getElementById("extra-close-split");
+        const frame = document.getElementById("extra-frame");
+        const label = document.getElementById("extra-doc-label");
+        const btns = document.getElementById("extra-doc-buttons");
+
+        wrapper.classList.add("lg:grid-cols-12");
+        listCol.classList.add("lg:col-span-6");
+        previewCol.classList.remove("hidden");
+        previewCol.classList.add("lg:col-span-6");
+        closeBtn.classList.remove("hidden");
+
+        frame.src = item.defaultFile + "#toolbar=0";
+        label.textContent = item.label;
+        btns.innerHTML = item.docs
+          .map(
+            (d) => `
+        <button onclick="openDocModal('${d.title}', '${d.file}')" class="btn-tactile px-3 py-1 rounded bg-orange-500 text-white font-bold">Zoom ↗</button>
+      `
+          )
+          .join("");
+      }
+
+      function closeExtraSplit() {
+        const wrapper = document.getElementById("extra-wrapper");
+        const listCol = document.getElementById("extra-list-col");
+        const previewCol = document.getElementById("extra-preview-col");
+        const closeBtn = document.getElementById("extra-close-split");
+
+        wrapper.classList.remove("lg:grid-cols-12");
+        listCol.classList.remove("lg:col-span-6");
+        previewCol.classList.add("hidden");
+        previewCol.classList.remove("lg:col-span-6");
+        closeBtn.classList.add("hidden");
+        document.getElementById("extra-frame").src = "";
+      }
+
+      // 5. Document Lightbox Modal
+      const modal = document.getElementById("doc-modal");
+      const modalBody = document.getElementById("modal-body");
+      const modalTitle = document.getElementById("modal-title");
+      const modalOpenTab = document.getElementById("modal-open-tab");
+      const modalClose = document.getElementById("modal-close");
+
+      function openDocModal(title, fileUrl) {
+        modalTitle.textContent = title;
+        modalOpenTab.href = fileUrl;
+        const isImage = /\.(png|jpg|jpeg|webp|gif)$/i.test(fileUrl);
+        if (isImage) {
+          modalBody.innerHTML = `<img src="${fileUrl}" alt="${title}" class="max-h-full max-w-full object-contain rounded-lg" />`;
+        } else {
+          modalBody.innerHTML = `<iframe src="${fileUrl}" class="w-full h-full rounded-lg bg-white" title="${title}"></iframe>`;
+        }
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+
+      modalClose.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        modalBody.innerHTML = "";
+      });
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modalClose.click();
+      });
+
+      // 6. Scroll Reveal & Active Nav Highlight
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.12 }
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-link");
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((sec) => {
+          if (window.scrollY >= sec.offsetTop - 130)
+            current = sec.getAttribute("id");
+        });
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + current)
+            link.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>
